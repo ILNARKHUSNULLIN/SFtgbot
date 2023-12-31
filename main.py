@@ -17,10 +17,13 @@ def start(message):
 
 @bot.message_handler(content_types=['text'])
 def convert(message):
-    quote, base, amount = message.text.split(' ')
     bot.send_message(message.from_user.id, 'Обработка...')
-    info = extensions.Converter.get_price(quote, base, amount)
-    bot.send_message(message.from_user.id, info)
+    if len(message.text.split()) != 3:
+        bot.send_message(message.from_user.id, 'Ввод в формате: валюта1 валюта2 количество')
+    else:
+        quote, base, amount = message.text.split(' ')
+        info = extensions.Converter.get_price(quote, base, amount)
+        bot.send_message(message.from_user.id, info)
 
 if __name__ == "__main__":
     bot.infinity_polling()
